@@ -23,7 +23,8 @@ To begin the data analysis, a standard ERD was developed to better visualize the
 <img src="Resources/EmployeeDB.png" width="500">
 
 The data was then collected and sorted based on current employees within the company that will qualify for retirement within the next few years.
-<img src="Resources/retirement_titles.png" width="700">
+
+<img src="Resources/retirement_titles.png" width="600">
 
 The analysis of the employee data from Pewlett-Hackard revealed the following information regarding retirement status:
 -	There are a total of 72,458 employees eligible for retirement within the next few years
@@ -34,6 +35,11 @@ The analysis of the employee data from Pewlett-Hackard revealed the following in
 Below is a table that shows the number of employees retiring in each department.
 
 <img src="Resources/unique_titles_count.png" width="400">
+
+The employees that were eligible for the mentorship program were organized into a similar table as before.
+
+<img src="Resources/mentoreship_eligibility_table.png" width="500">
+
 
 ## Summary
 
