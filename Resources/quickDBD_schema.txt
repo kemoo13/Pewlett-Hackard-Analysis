@@ -1,0 +1,138 @@
+Departments
+-
+dept_no varchar pk
+dept_name varchar
+
+Employees
+-
+emp_no int pk
+birth_date date
+first_name varchar
+last_name varchar
+gender varchar
+hire_date date
+
+Titles
+-
+emp_no int pk fk -< Employees.emp_no
+title varchar
+from_date date
+to_date date
+
+Salaries
+-
+emp_no int pk fk - Employees.emp_no
+salary int 
+from_date date
+to_date date
+
+Managers
+-
+dept_no varchar pk fk - Departments.dept_no
+emp_no int pk fk - Employees.emp_no
+from_date date
+to_date date
+
+Dept_emp
+-
+emp_no int pk fk -< Employees.emp_no
+dept_no int pk fk -< Departments.dept_no
+from_date date
+to_date date
+
+
+-- To count how many people are eligible for retirement
+-- Retirement eligibilty 
+SELECT COUNT(first_name)
+FROM employees
+WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
+
+-- To make the info into a table
+SELECT first_name, last_name
+INTO retirement_info
+FROM employees
+WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
+
+
+SELECT * FROM retirement_info;
+
+DROP TABLE retirement_info;
+
+-- Create new table for retiring employees
+SELECT emp_no, first_name, last_name
+INTO retirement_info
+FROM employees
+WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
+
+-- Check the table
+SELECT * FROM retirement_info;
+
+
+-- create a query that will return each department name from the derpartments table as well as the employee numbers
+--and the from- and to- dates from the dept_manger table
+-- Joining departments and dept_manager tables
+SELECT departments.dept_name,
+	dept_manager.emp_no,
+	dept_manager.from_date,
+	dept_manager.to_date
+FROM departments
+INNER JOIN dept_manager
+ON departments.dept_no = dept_manager.dept_no;
+
+-- Bobby realized he overlooked the start and end dates and some ppl from the original list may not work at the company anymore. 
+-- original retirement_info table only included ppl w/ certain birth and hire dates, how many of them have left?
+-- Joining retirement_info and dept_emp tables
+-- used a left join to include every row of the first table (retirement_info)
+SELECT retirement_info.emp_no,
+	retirement_info.first_name,
+	retirement_info.last_name,
+	dept_emp.to_date
+FROM retirement_info
+LEFT JOIN dept_emp
+ON retirement_info.emp_no = dept_emp.emp_no;
+
+**NOTE: SQL has a method to shorten the code and provide greater readability by using an alias instead of a full tablename
+- an alias in SQL allows developers to give nicknames to tables, commonly used in joins b/c multiple tables and columns are often listed
+
+
+---- Joining retirement_info and dept_emp tables and creating aliases for the two 
+SELECT ri.emp_no,
+	ri.first_name,
+	ri.last_name,
+	de.to_date
+FROM retirement_info as ri
+LEFT JOIN dept_emp as de
+ON ri.emp_no = de.emp_no;
+
+
+--- Messed up the table for dep_emp and had to drop table. Made new table and refreshed, a-ok
+-- Creating tables for PH-EmployeeDB
+CREATE TABLE dept_emp (
+	emp_no INT,
+     dept_no VARCHAR(4) NOT NULL,
+     from_date DATE,
+	to_date DATE,
+	FOREIGN KEY (emp_no) REFERENCES employees (emp_no),
+     FOREIGN KEY (dept_no) REFERENCES departments (dept_no),
+	 PRIMARY KEY (emp_no, dept_no)
+);
+
+--- then reran to rejoin the tables:
+-- Joining retirement_info and dept_emp tables
+SELECT ri.emp_no,
+	ri.first_name,
+	ri.last_name,
+	de.to_date
+FROM retirement_info as ri
+LEFT JOIN dept_emp as de
+ON ri.emp_no = de.emp_no;
+
+
+--- Need to also recreate the titles table, same way as dept_emp
+--- made a mistake by combining the two tables BEFORE making a new titles table, this caused an error of a unique restraint
+-- will now need to drop the employeestable, as dropping just the dept_emp table did not reset the employee table which is the cause of the error
+-- due to the fact that the employees table happens to be the primary key of many tables, will likely need to redo this entire thing
+
