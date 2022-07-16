@@ -38,7 +38,7 @@ Below is a table that shows the number of employees retiring in each department.
 
 The employees that were eligible for the mentorship program were organized into a similar table as before.
 
-<img src="Resources/mentoreship_eligibility_table.png" width="500">
+<img src="Resources/mentorship_eligibility_table.png" width="500">
 
 
 ## Summary
