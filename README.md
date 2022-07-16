@@ -32,6 +32,7 @@ The analysis of the employee data from Pewlett-Hackard revealed the following in
 -	1,940 employees are eligible for the mentorship program
 
 Below is a table that shows the number of employees retiring in each department.
+
 <img src="Resources/unique_titles_count.png" width="400">
 
 ## Summary
